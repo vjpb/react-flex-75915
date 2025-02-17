@@ -1,11 +1,14 @@
-import './App.css'
+import "./App.css";
+import Navbar from "./components/Navbar/Navbar";
+import ItemListContainer from "./components/ItemListContainer/ItemListContainer";
 
 function App() {
-  let nombreDelEstudiante = "Vitiok";
-
   return (
-  <h1>Bienvenido al curso y espero que aprendas mucho {nombreDelEstudiante}</h1>
-  )
+    <>
+      <Navbar />
+      <ItemListContainer greetings="Bienvenido a Ritmil Vision estimado usuario" />
+    </>
+  );
 }
 
-export default App
+export default App;
