@@ -5,7 +5,7 @@ import logo from '../../assets/Ritmil-vision-logo.png'; // Ruta correcta de la i
 
 function Navbar() {
     return (
-        <header>
+        <header className='nav-bar-container'>
         <nav className="nav-bar">
             <img className="nav-bar-logo" src={logo} alt='logo'/>
             <ul className="nav-bar-options">
