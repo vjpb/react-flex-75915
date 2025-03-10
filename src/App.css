@@ -1,5 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 html *,
 body * {
-  margin: 0;
+  font-family: "Montserrat", sans-serif;
   padding: 0;
+  margin: 0;
+}
+
+.card-btn {
+  background: #ff0000;
+  color: #fff;
+  cursor: pointer;
+  border: 2px solid #ff0000;
+  border-radius: 20px;
+  font-weight: 600;
+  padding: 5px;
+  margin: 0 auto;
+  min-width: 6rem;
+}
+
+.card-btn:hover {
+  background: #4d4d4d;
+  color: #ffffff;
+  border: 2px solid #4d4d4d;
+  font-weight: 600;
+  transition: all 0.3s ease-out;
+}
+
+  
+*:disabled, 
+*:disabled:hover {
+  background-color: #8f8e8e;
+  border: solid 1px #8f8e8e;
+  cursor: initial;
+  opacity: 0.5;
 }
