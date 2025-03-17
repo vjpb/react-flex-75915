@@ -12,5 +12,6 @@
     -webkit-mask-composite: destination-in;
             mask-composite: intersect;
     animation:l4 1s infinite steps(10);
+    height: 50px;    
   }
   @keyframes l4 {to{transform: rotate(1turn)}}

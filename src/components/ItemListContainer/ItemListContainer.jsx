@@ -4,66 +4,50 @@ import "./ItemListContainer.css";
 import { fetchData } from "../../fetchData";
 import Loader from "../Loader/loader";
 import ItemDetail from "../ItemDetail/ItemDetail";
+import { useParams } from "react-router-dom";
 
-function ItemListContainer({ greetings }) {
-  const [todosLosProductos, setTodosLosProductos] = useState([]);
+function ItemListContainer() {
+  const [todosLosProductos, setTodosLosProductos] = useState([]); // Este State sirve para guardar una copa del fetch y evitar hacer multiples peticiones del backend
   const [misProductos, setMisProductos] = useState([]);
-  const [loading, setLoading] = useState([]);
-  const [detalleFiltrado, setDetalleFiltrado] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const usarFiltro = (filtro, id) => {
-    switch (filtro) {
-      case "Ninguno":
-        setDetalleFiltrado(false)
-        setMisProductos([]);
-        break;
-      case "Todos":
-        setDetalleFiltrado(false)
-        setMisProductos(todosLosProductos);
-        break;
-      case "Economicos":
-        setDetalleFiltrado(false)
-        setMisProductos(todosLosProductos.filter((el) => el.precio < 50));
-        break;
-      case "Costosos":
-        setDetalleFiltrado(false)
-        setMisProductos(todosLosProductos.filter((el) => el.precio > 50));
-        break;
-      case "Detalle":
-        setDetalleFiltrado(true)
-        setMisProductos(todosLosProductos.filter(el => el.id === id));
-        break;
-
-      default:
-        break;
-    }
-  };
+  const { categoria } = useParams();
 
   useEffect(() => {
-    fetchData()
-      .then((response) => {
-        setTodosLosProductos(response);
-        setMisProductos(response);
-        setLoading(false);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    if (todosLosProductos.length === 0) {
+      fetchData()
+        .then((response) => {
+          setTodosLosProductos(response);
+          if (categoria) {
+            const productosFiltrados = response.filter(
+              (el) => el.categoria === categoria
+            );
+            setMisProductos(productosFiltrados);
+            setLoading(false);
+          } else {
+            setMisProductos(response);
+            setLoading(false);
+          }
+        })
+        .catch((err) => console.log(err + "Error "));
+    }
+
+    if (categoria) {
+      const productosFiltrados = todosLosProductos.filter(
+        (el) => el.categoria === categoria
+      );
+      setMisProductos(productosFiltrados);
+    } else {
+      setMisProductos(todosLosProductos);
+    }
+  }, [categoria]);
+
   return (
     <>
-      <h1 className="item-greetings">{greetings}</h1>
-      {
-        !detalleFiltrado &&
-      <div className="container-filter">
-        <button className="card-btn" onClick={() => usarFiltro("Todos")}>Todos</button>
-        <button className="card-btn" onClick={() => usarFiltro("Economicos")}>Economicos</button>
-        <button className="card-btn" onClick={() => usarFiltro("Costosos")}>Costosos</button>
-        <button className="card-btn" onClick={() => usarFiltro("Ninguno")}>Ninguno</button>
-      </div>
-      }
       <div className="container-cards">
-        {loading ?  <Loader/>  : 
-        detalleFiltrado ? <ItemDetail item={misProductos[0]}  usarFiltro={usarFiltro} /> :
-        
+        {loading ? (
+           <div className="card-loading-container"><div className="card-loading"><Loader/></div></div> 
+        ) : (
           misProductos.map((el, index) => {
             return (
               <Item
@@ -74,11 +58,10 @@ function ItemListContainer({ greetings }) {
                 precio={el.precio}
                 categoria={el.categoria}
                 stock={el.stock}
-                usarFiltro={usarFiltro}
               />
             );
           })
-        }
+        )}
       </div>
     </>
   );

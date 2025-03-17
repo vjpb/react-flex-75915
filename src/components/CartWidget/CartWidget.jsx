@@ -5,7 +5,6 @@ function CartWidget() {
   return (
     <div className="nav-bar-cart">
       <FaShoppingCart size={24} color="red" />
-      (4)
     </div>
   );
 }
