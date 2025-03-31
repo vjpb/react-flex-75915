@@ -3,7 +3,7 @@ import Item from "../Item/item";
 import "./ItemListContainer.css";
 import { fetchData } from "../../fetchData";
 import Loader from "../Loader/loader";
-import ItemDetail from "../ItemDetail/ItemDetail";
+// import ItemDetail from "../ItemDetail/ItemDetail";
 import { useParams } from "react-router-dom";
 
 function ItemListContainer() {

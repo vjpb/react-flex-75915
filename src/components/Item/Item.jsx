@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
 import "./Item.css";
+import { useAppContext } from "../../context/context";
 
-function Item({id, nombre, precio, img, stock, detalles, oferta}) {
+function Item({id, nombre, precio, img, stock, oferta}) {
 
-  function agregarAlCarrito() {
-    console.log("Haz agregado al carrito:", nombre)
-  };
+  const { agregarAlCarrito } = useAppContext();
 
   return (
     <div className="card">
@@ -13,7 +12,7 @@ function Item({id, nombre, precio, img, stock, detalles, oferta}) {
       <article className="card-content">
         <h3>{nombre || "No Disponible"}</h3>
         <p>Precio: {precio || "Sin Precio"}</p>
-        <button disabled={stock === 0} className="card-btn" onClick={() => agregarAlCarrito()}>Comprar</button>
+        <button disabled={stock === 0} className="card-btn" onClick={() => agregarAlCarrito({id, nombre, precio, img, cantidad: 1})}>Agregar al Carrito</button>
         <Link to={`/detalle/${id}`}>
           <button disabled={!nombre} className="card-btn">
             Ver Detalles

@@ -3,15 +3,17 @@ import "./ItemDetail.css";
 import { useEffect, useState } from "react";
 import { fetchData } from "../../fetchData";
 import Loader from "../Loader/loader";
+import { useAppContext } from "../../context/context";
+import Contador from "../Contador/Contador";
 
 function ItemDetail({ item }) {
 
   const { id } = useParams();
-  const [detalle, setDetalle] = useState (null)
+
+  const [detalle, setDetalle] = useState (null);
   
-  function agregarAlCarrito() {
-    console.log("Haz agregado al carrito:", detalle.nombre);
-  }
+  const { agregarAlCarrito, contador } = useAppContext();
+
 
   useEffect(() => {
       fetchData()
@@ -34,12 +36,20 @@ function ItemDetail({ item }) {
             <h3>{detalle.nombre || "No Disponible"}</h3>
             <p>Precio: {detalle.precio || "Sin Precio"}</p>
             <p>Detalles: {detalle.detalles || "Sin información adicional"}</p>
-            <p>Stock: {detalle.stock || "Sin Stock"}</p>
+            {
+              detalle.stock > 0 ? 
+              <>
+                <p>Quedan {detalle.stock} unidades</p>
+                <Contador stock={detalle.stock} />
+              </>
+              :
+              <p>Sin existencias</p>
+            }
             <p>Categoria: {detalle.categoria || "Sin Categoria"}</p>
-            <button disabled={detalle.stock === 0} className="card-btn" onClick={() => agregarAlCarrito()}>Comprar</button>
+            <button disabled={detalle.stock === 0} className="card-btn" onClick={() => agregarAlCarrito({id: detalle.id, nombre: detalle.nombre, precio: detalle.precio, img: detalle.img, stock: detalle.stock, cantidad: contador })}>Agregar al Carrito</button>
             <Link to="/">
               <button className="card-btn">
-                Volver al
+                Volver al inicio
               </button>
             </Link>
           </article>
